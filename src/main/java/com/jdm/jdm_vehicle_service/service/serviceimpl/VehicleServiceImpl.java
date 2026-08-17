@@ -20,7 +20,7 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleDTO createVehicle(VehicleDTO vehicleDTO) {
         Vehicle vehicle = Vehicle.builder()
                 .name(vehicleDTO.getName())
-                .imageUrl(vehicleDTO.getImageUrl())
+                .imageFileName(vehicleDTO.getImageFileName())
                 .status(vehicleDTO.getStatus())
                 .build();
 
@@ -39,7 +39,7 @@ public class VehicleServiceImpl implements VehicleService {
         VehicleDTO dto = new VehicleDTO();
         dto.setId(vehicle.getId());
         dto.setName(vehicle.getName());
-        dto.setImageUrl(vehicle.getImageUrl());
+        dto.setImageFileName(vehicle.getImageFileName());
         dto.setStatus(vehicle.getStatus());
         return dto;
     }

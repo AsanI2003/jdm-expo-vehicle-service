@@ -20,7 +20,7 @@ public class Vehicle {
     private String name;
 
     @Column(nullable = false)
-    private String imageUrl;
+    private String imageFileName;
 
     @Column(nullable = false)
     private String status;

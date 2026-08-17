@@ -1,12 +1,17 @@
 package com.jdm.jdm_vehicle_service.controller;
 
+import com.jdm.jdm_vehicle_service.client.MediaServiceClient;
 import com.jdm.jdm_vehicle_service.dto.VehicleDTO;
 import com.jdm.jdm_vehicle_service.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/vehicles")
@@ -14,9 +19,15 @@ import org.springframework.web.bind.annotation.*;
 public class VehicleController {
 
     private final VehicleService vehicleService;
+    private final MediaServiceClient mediaServiceClient;
 
-    @PostMapping
-    public ResponseEntity<VehicleDTO> createVehicle(@RequestBody VehicleDTO vehicleDTO) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<VehicleDTO> createVehicle(@RequestPart("vehicle") VehicleDTO vehicleDTO,
+    @RequestPart("image") MultipartFile image
+    ) {
+        ResponseEntity<Map<String, String>> imageResponse = mediaServiceClient.uploadImage(image);
+        String savedFilename = imageResponse.getBody().get("filename");
+        vehicleDTO.setImageFileName(savedFilename);
         VehicleDTO response = vehicleService.createVehicle(vehicleDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

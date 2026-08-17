@@ -6,6 +6,6 @@ import lombok.*;
 public class VehicleDTO {
     private Long id;
     private String name;
-    private String imageUrl;
+    private String imageFileName;
     private String status;
 }
